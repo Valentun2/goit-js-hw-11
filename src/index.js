@@ -17,12 +17,16 @@ function hanglerSerch(evt) {
   evt.preventDefault()
 
   const inputValue = evt.target.children.searchQuery.value
+  if(!inputValue){
+    return
+  }
   page=1
   
   containerGalery.innerHTML=''
 
   insertMarcup()
   getFetch(inputValue).then(data =>  {
+   
     if(!data.hits.length){
 Notify.warning("Sorry, there are no images matching your search query. Please try again.")
 return
@@ -82,7 +86,7 @@ function hanglerload(entries){
       
       page +=1
     }) 
-        .catch(err => console.log(err))
+        .catch(err => err)
   }
 
  });
@@ -93,9 +97,10 @@ function hanglerload(entries){
 
 function insertMarcup(){
   const inputSearch = searchForm.children.searchQuery.value;
-
+  
+ 
   getFetch(inputSearch, page).then(data => {
-   
+
     containerGalery.insertAdjacentHTML('beforeend',createMarcup(data));
 
       gallery.refresh()
